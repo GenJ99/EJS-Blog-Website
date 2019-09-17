@@ -45,7 +45,7 @@ app.get("/contact", function(req, res) {
 });
 
 
-
+// Get and post methods for creating and posting messages to home page.
 app.get("/compose", function(req, res) {
   res.render("compose");
 });
@@ -54,17 +54,12 @@ app.post("/compose", function(req, res) {
   const post = {
     title: req.body.postTitle,
     content: req.body.postBody
+    //content: _.truncate(req.body.postBody, {length: 100})
   };
 
   posts.push(post);
 
   res.redirect("/");
-});
-
-
-
-app.get("/post", function(req, res) {
-  res.render("post");
 });
 
 
@@ -75,11 +70,11 @@ app.get("/posts/:postName", function(req, res) {
   posts.forEach(function(post) {
     const storedTitle = _.lowerCase(post.title);
 
-    if (toLowerRequested === toLowerStored) {
-      console.log("Match Found!");
-      res.redirect("/post");
-    } else {
-      console.log("Not a match");
+    if (requestedTitle === storedTitle) {
+      res.render("post", {
+        title: post.title,
+        content: post.content
+      });
     }
   });
 });
