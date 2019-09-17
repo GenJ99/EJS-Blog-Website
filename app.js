@@ -13,26 +13,35 @@ const app = express();
 
 app.set('view engine', 'ejs');
 
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 app.use(express.static("public"));
 
 
 
 app.get("/", function(req, res) {
-    res.render("home", {startingContent: homeStartingContent, posts: posts});
+  res.render("home", {
+    startingContent: homeStartingContent,
+    posts: posts
+  });
 
 });
 
 
 
 app.get("/about", function(req, res) {
-  res.render("about", {aboutContent: aboutContent});
+  res.render("about", {
+    aboutContent: aboutContent
+  });
 });
 
 
 
 app.get("/contact", function(req, res) {
-  res.render("contact", {contactContent: contactContent});
+  res.render("contact", {
+    contactContent: contactContent
+  });
 });
 
 
@@ -54,8 +63,19 @@ app.post("/compose", function(req, res) {
 
 
 
+app.get("/posts/:postName", function(req, res) {
+  const requestedTitle = req.params.postName;
 
+  posts.forEach(function(post) {
+    const storedTitle = post.title;
 
+    if (requestedTitle === storedTitle) {
+      console.log("Match Found!");
+    } else {
+      console.log("Not a match");
+    }
+  });
+});
 
 
 
